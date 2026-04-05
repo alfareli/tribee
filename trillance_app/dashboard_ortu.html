@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>TRIBEE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark:   #0A3D6B;
+      --blue-mid:    #1565C0;
+      --blue-main:   #1E88E5;
+      --blue-light:  #E3F2FD;
+      --blue-pale:   #F0F7FF;
+      --green-dark:  #0A5C46;
+      --green-main:  #00897B;
+      --green-light: #E0F2F1;
+      --amber-dark:  #7A4F00;
+      --amber-main:  #F59E0B;
+      --amber-light: #FEF3C7;
+      --red-dark:    #8B1C1C;
+      --red-main:    #EF4444;
+      --red-light:   #FEE2E2;
+      --text-1: #0F1F2E;
+      --text-2: #4A6280;
+      --text-3: #8BA3BC;
+      --bg:     #F4F8FC;
+      --white:  #FFFFFF;
+      --border: #D9E8F5;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --shadow-sm: 0 1px 4px rgba(10,61,107,0.08);
+      --shadow-md: 0 4px 20px rgba(10,61,107,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    .page-wrap { min-height: 100vh; min-height: 100dvh; width: 100%; display: flex; justify-content: center; background: var(--bg); }
+    .phone { width: 100%;  min-height: 100vh; min-height: 100dvh; background: var(--bg); display: flex; flex-direction: column; position: relative; }
+
+    /* HEADER */
+    .header { background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, var(--blue-main) 100%); padding: max(1.4rem, calc(1.4rem + env(safe-area-inset-top))) 1.25rem 1.5rem; position: relative; overflow: hidden; }
+    .header::before { content:''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,0.07); }
+    .header::after  { content:''; position: absolute; bottom: -40px; left: -20px; width: 140px; height: 140px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+    .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.1rem; position: relative; z-index: 1; }
+    .header-logo-row { display: flex; align-items: center; gap: 9px; }
+    .header-logo-placeholder { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.2); border: 1.5px dashed rgba(255,255,255,0.45); display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.7); font-weight: 600; }
+    .header-logo-name { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+    .header-badge { font-size: 11px; background: rgba(255,255,255,0.18); color: #fff; padding: 5px 12px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(255,255,255,0.2); }
+    .header-greeting { font-size: 12px; color: rgba(255,255,255,0.7); position: relative; z-index: 1; font-weight: 500; }
+    .header-name { font-size: 22px; font-weight: 800; color: #fff; margin-top: 3px; position: relative; z-index: 1; letter-spacing: -0.4px; }
+
+    /* BODY */
+    .body { padding: 1.25rem 1.25rem 6rem; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .section-title { font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; margin-top: 4px; }
+
+    /* CONNECT */
+    .connect-box { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 2rem 1.5rem; margin-bottom: 1.25rem; text-align: center; box-shadow: var(--shadow-sm); }
+    .connect-icon { font-size: 44px; margin-bottom: 14px; }
+    .connect-title { font-size: 16px; font-weight: 700; color: var(--text-1); margin-bottom: 8px; }
+    .connect-sub { font-size: 13px; color: var(--text-2); margin-bottom: 1.5rem; line-height: 1.6; }
+    .btn-connect { background: var(--green-main); color: #fff; border: none; padding: 14px 32px; border-radius: 50px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(0,137,123,0.3); transition: all 0.2s; }
+    .btn-connect:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .kode-box { background: var(--green-light); border: 1.5px solid var(--green-main); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.25rem; text-align: center; }
+    .kode-box-label { font-size: 11px; font-weight: 700; color: var(--green-dark); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+    .kode-box-val { font-size: 40px; font-weight: 800; letter-spacing: 10px; color: var(--green-dark); margin-bottom: 12px; }
+    .kode-warning { display: inline-block; font-size: 12px; color: var(--amber-dark); background: var(--amber-light); padding: 5px 14px; border-radius: 20px; margin-bottom: 8px; font-weight: 600; }
+    .kode-box-hint { font-size: 12px; color: var(--green-dark); line-height: 1.6; }
+
+    /* STAT */
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
+    .stat-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 14px 10px; text-align: center; box-shadow: var(--shadow-sm); }
+    .stat-num { font-size: 26px; font-weight: 800; }
+    .stat-lbl { font-size: 11px; color: var(--text-3); margin-top: 4px; font-weight: 500; }
+    .num-iq { color: var(--blue-main); }
+    .num-eq { color: var(--amber-main); }
+    .num-sq { color: var(--green-main); }
+
+    /* ANAK CARD */
+    .anak-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+    .anak-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .anak-avatar { width: 46px; height: 46px; border-radius: 14px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .anak-name { font-size: 15px; font-weight: 700; color: var(--text-1); }
+    .anak-sub { font-size: 11px; color: var(--text-3); margin-top: 3px; font-weight: 500; }
+    .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .progress-lbl { font-size: 11px; font-weight: 700; min-width: 24px; }
+    .progress-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+    .progress-pct { font-size: 11px; color: var(--text-3); min-width: 32px; text-align: right; font-weight: 600; }
+
+    /* EMOSI */
+    .emosi-row { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1.5px solid var(--border); }
+    .emosi-label { font-size: 11px; color: var(--text-3); font-weight: 500; }
+    .emosi-badge { font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 99px; }
+    .emosi-senang { background: var(--green-light); color: var(--green-dark); }
+    .emosi-sedih  { background: var(--blue-light);  color: var(--blue-dark); }
+    .emosi-marah  { background: var(--red-light);   color: var(--red-dark); }
+    .emosi-cemas  { background: var(--amber-light); color: var(--amber-dark); }
+    .emosi-bosan  { background: #F1EFE8; color: #444441; }
+
+    /* REKOMENDASI */
+    .rekomendasi-box { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+    .rekomendasi-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .rekomendasi-icon { font-size: 22px; }
+    .rekomendasi-title { font-size: 15px; font-weight: 700; color: var(--text-1); }
+    .rekomendasi-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; font-weight: 500; }
+    .training-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius-md); margin-bottom: 8px; }
+    .training-item:last-child { margin-bottom: 0; }
+    .training-badge { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .badge-iq { background: var(--blue-light); }
+    .badge-eq { background: var(--amber-light); }
+    .badge-sq { background: var(--green-light); }
+    .training-name { font-size: 13px; font-weight: 700; color: var(--text-1); }
+    .training-desc { font-size: 11px; color: var(--text-2); margin-top: 3px; line-height: 1.5; }
+    .training-tag { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 99px; margin-left: auto; flex-shrink: 0; }
+    .tag-penting    { background: var(--red-light);   color: var(--red-dark); }
+    .tag-disarankan { background: var(--amber-light); color: var(--amber-dark); }
+    .tag-bonus      { background: var(--green-light); color: var(--green-dark); }
+
+    /* PENGATURAN */
+    .setting-group { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 0 1.1rem; margin-bottom: 1.25rem; box-shadow: var(--shadow-sm); }
+    .setting-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1.5px solid var(--border); cursor: pointer; }
+    .setting-item:last-child { border-bottom: none; }
+    .setting-left { display: flex; align-items: center; gap: 14px; }
+    .setting-icon-wrap { width: 36px; height: 36px; border-radius: 10px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .setting-label { font-size: 14px; font-weight: 600; color: var(--text-1); }
+    .setting-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; font-weight: 500; }
+    .setting-arrow { font-size: 18px; color: var(--text-3); }
+    .toggle { width: 44px; height: 26px; border-radius: 13px; background: var(--border); position: relative; cursor: pointer; transition: background 0.25s; flex-shrink: 0; }
+    .toggle.on { background: var(--green-main); }
+    .toggle-knob { width: 20px; height: 20px; border-radius: 50%; background: white; position: absolute; top: 3px; left: 3px; transition: left 0.25s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+    .toggle.on .toggle-knob { left: 21px; }
+
+    /* BUTTONS */
+    .btn-outline { width: 100%; padding: 14px; background: transparent; border: 1.5px solid var(--border); color: var(--blue-mid); border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+    .btn-outline:hover { background: var(--blue-light); }
+    .btn-danger { width: 100%; padding: 14px; background: transparent; border: 1.5px solid #FCA5A5; color: var(--red-dark); border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px; transition: all 0.2s; }
+    .btn-danger:hover { background: var(--red-light); }
+
+    /* INFO */
+    .info-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+    .info-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-main); margin-top: 6px; flex-shrink: 0; }
+    .info-row span { font-size: 13px; color: var(--text-2); line-height: 1.6; font-weight: 500; }
+
+    /* BOTTOM NAV */
+    .bottom-nav { position: sticky; bottom: 0; width: 100%; background: var(--white); border-top: 1.5px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0 max(14px, env(safe-area-inset-bottom)); z-index: 100; box-shadow: 0 -4px 24px rgba(10,61,107,0.08); flex-shrink: 0; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 6px 20px; border-radius: 14px; flex: 1; transition: background 0.15s; }
+    .nav-item:hover { background: var(--blue-light); }
+    .nav-item.active { background: var(--blue-pale); }
+    .nav-icon { font-size: 22px; }
+    .nav-label { font-size: 10px; color: var(--text-3); font-weight: 600; }
+    .nav-item.active .nav-label { color: var(--blue-mid); }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .fase-panel { animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* KUESIONER */
+    .kuesioner-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); }
+    .kuesioner-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .kuesioner-icon { font-size: 24px; }
+    .kuesioner-title { font-size: 15px; font-weight: 700; color: var(--text-1); }
+    .kuesioner-sub { font-size: 13px; color: var(--text-2); margin-bottom: 1.1rem; line-height: 1.6; font-weight: 500; }
+    .btn-kuesioner { width: 100%; padding: 14px; background: var(--blue-mid); color: #fff; border: none; border-radius: 50px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+    .btn-kuesioner:hover { background: var(--blue-dark); }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center; backdrop-filter: blur(2px); }
+    .modal-overlay.open { display: flex; }
+    .modal-sheet { background: var(--white); border-radius: 28px 28px 0 0; width: 100%; max-height: 92vh; max-height: 92dvh; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-header { padding: 1.25rem 1.25rem 0.9rem; border-bottom: 1.5px solid var(--border); flex-shrink: 0; }
+    .modal-title { font-size: 16px; font-weight: 800; color: var(--text-1); }
+    .modal-progress-bar { height: 6px; background: var(--border); border-radius: 99px; margin-top: 10px; overflow: hidden; }
+    .modal-progress-fill { height: 100%; background: var(--blue-mid); border-radius: 99px; transition: width 0.4s ease; }
+    .modal-progress-label { font-size: 11px; color: var(--text-3); margin-top: 5px; font-weight: 600; }
+    .modal-body { padding: 1.25rem; overflow-y: auto; flex: 1; }
+    .q-category { font-size: 12px; font-weight: 800; color: var(--blue-mid); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+    .q-item { margin-bottom: 20px; }
+    .q-text { font-size: 13px; color: var(--text-1); line-height: 1.6; margin-bottom: 10px; font-weight: 600; }
+    .q-options { display: flex; flex-direction: column; gap: 7px; }
+    .q-option { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.15s; background: var(--white); }
+    .q-option:hover { border-color: var(--blue-main); background: var(--blue-pale); }
+    .q-option.selected { border-color: var(--blue-mid); background: var(--blue-light); }
+    .q-option input[type=radio] { accent-color: var(--blue-mid); width: 16px; height: 16px; flex-shrink: 0; }
+    .q-option-label { font-size: 13px; color: var(--text-1); font-weight: 500; }
+    .modal-footer { padding: 1rem 1.25rem 1.5rem; border-top: 1.5px solid var(--border); flex-shrink: 0; display: flex; gap: 10px; }
+    .btn-modal-next { flex: 1; padding: 14px; background: var(--blue-mid); color: #fff; border: none; border-radius: 50px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+    .btn-modal-next:hover { background: var(--blue-dark); }
+    .btn-modal-next:disabled { background: var(--border); color: var(--text-3); cursor: not-allowed; }
+    .btn-modal-back { padding: 14px 20px; background: transparent; border: 1.5px solid var(--border); color: var(--text-1); border-radius: 50px; font-size: 14px; cursor: pointer; font-family: inherit; font-weight: 600; }
+
+    /* HASIL */
+    .hasil-box { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); }
+    .hasil-title { font-size: 15px; font-weight: 700; color: var(--text-1); margin-bottom: 4px; }
+    .hasil-sub { font-size: 12px; color: var(--text-3); margin-bottom: 16px; line-height: 1.5; font-weight: 500; }
+    .hasil-dominant { display: flex; align-items: center; gap: 14px; background: var(--blue-light); border: 1.5px solid var(--blue-main); border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px; }
+    .hasil-dominant-name { font-size: 15px; font-weight: 800; color: var(--blue-dark); }
+    .hasil-dominant-desc { font-size: 12px; color: var(--text-2); margin-top: 3px; line-height: 1.5; font-weight: 500; }
+    .hasil-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .hasil-bar-lbl { font-size: 12px; font-weight: 700; min-width: 54px; color: var(--text-1); }
+    .hasil-bar-wrap { flex: 1; height: 9px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .hasil-bar-fill { height: 100%; border-radius: 99px; transition: width 0.7s ease; }
+    .hasil-bar-pct { font-size: 11px; color: var(--text-3); min-width: 32px; text-align: right; font-weight: 600; }
+    .bar-fight  { background: #EF4444; }
+    .bar-flight { background: #F59E0B; }
+    .bar-freeze { background: #1E88E5; }
+    .bar-fawn   { background: #00897B; }
+    .btn-isi-ulang { width: 100%; padding: 12px; background: transparent; border: 1.5px solid var(--border); color: var(--blue-mid); border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 8px; }
+    .btn-isi-ulang:hover { background: var(--blue-light); }
+
+    /* TRACKING */
+    .tracking-toggle { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1.5px solid var(--border); cursor: pointer; }
+    .tracking-toggle-label { font-size: 12px; font-weight: 700; color: var(--blue-mid); }
+    .tracking-toggle-arrow { font-size: 14px; color: var(--text-3); transition: transform 0.2s; }
+    .tracking-toggle-arrow.open { transform: rotate(180deg); }
+    .tracking-panel { display: none; margin-top: 14px; }
+    .tracking-panel.open { display: block; }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="phone">
+
+    <div class="header">
+      <div class="header-top">
+        <div class="header-logo-row">
+          <!-- GANTI: <img src="logo.png" width="32" height="32" style="border-radius:50%;object-fit:contain"> -->
+          <span class="header-logo-name">TRIBEE</span>
+        </div>
+        <span class="header-badge">Orang Tua</span>
+      </div>
+      <div class="header-greeting">Selamat datang,</div>
+    </div>
+
+    <div class="body">
+
+      <!-- HOME -->
+      <div class="screen active" id="tab-home">
+        <div id="state-belum">
+          <div class="section-title">Koneksi Anak</div>
+          <div class="connect-box">
+            <div class="connect-icon">📱</div>
+            <div class="connect-title">Belum ada anak terhubung</div>
+            <div class="connect-sub">Generate kode untuk menghubungkan HP anak ke akun ini</div>
+            <button class="btn-connect" onclick="generateKode()">+ Hubungkan Anak</button>
+          </div>
+        </div>
+
+        <div id="state-kode" style="display:none;">
+          <div class="section-title">Kode Koneksi — Sekali Pakai</div>
+          <div class="kode-box">
+            <div class="kode-box-label">Berikan kode ini ke anak</div>
+            <div class="kode-box-val" id="kode-val">——</div>
+            <div class="kode-warning">⚠️ Kode hilang setelah dipakai</div>
+            <div class="kode-box-hint">Kode otomatis hangus setelah anak berhasil login</div>
+          </div>
+          <button class="btn-outline" onclick="simulasiKonek()">🔗 Simulasi: anak berhasil konek</button>
+        </div>
+
+        <!-- STATE: ONBOARDING KUESIONER -->
+        <div id="state-onboarding" style="display:none;">
+          <div style="text-align:center; padding: 1.5rem 0 1rem;">
+            <div style="font-size:48px; margin-bottom:12px;">🧠</div>
+            <div style="font-size:17px; font-weight:700; color:var(--text-1); margin-bottom:8px;">Yuk, Kenali Anak Lebih Dalam!</div>
+            <div style="font-size:13px; color:var(--text-3); line-height:1.6; margin-bottom:1.5rem;">Sebelum mulai, bantu kami memahami bagaimana anak kamu merespons tekanan sehari-hari. Kuesioner ini hanya perlu diisi sekali.</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:1.5rem;">
+            <div style="display:flex; align-items:center; gap:12px; background:var(--white); border:1px solid var(--border); border-radius:12px; padding:12px;">
+              <div style="font-size:22px;">⚔️</div><div><div style="font-size:13px; font-weight:600; color:var(--text-1);">Fight</div><div style="font-size:11px; color:var(--text-3);">Respon melawan saat tertekan</div></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; background:var(--white); border:1px solid var(--border); border-radius:12px; padding:12px;">
+              <div style="font-size:22px;">🏃</div><div><div style="font-size:13px; font-weight:600; color:var(--text-1);">Flight</div><div style="font-size:11px; color:var(--text-3);">Respon menghindar dari masalah</div></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; background:var(--white); border:1px solid var(--border); border-radius:12px; padding:12px;">
+              <div style="font-size:22px;">🧊</div><div><div style="font-size:13px; font-weight:600; color:var(--text-1);">Freeze</div><div style="font-size:11px; color:var(--text-3);">Respon diam / menarik diri</div></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; background:var(--white); border:1px solid var(--border); border-radius:12px; padding:12px;">
+              <div style="font-size:22px;">🕊️</div><div><div style="font-size:13px; font-weight:600; color:var(--text-1);">Fawn</div><div style="font-size:11px; color:var(--text-3);">Respon menyenangkan orang lain</div></div>
+            </div>
+          </div>
+          <button class="btn-kuesioner" onclick="bukaKuesioner()">Mulai Kuesioner (4 bagian)</button>
+          <div style="text-align:center; margin-top:10px; font-size:11px; color:var(--text-3);">⏱ Estimasi 3–5 menit</div>
+        </div>
+
+        <div id="state-konek" style="display:none;">
+          <div class="section-title">Progres Anak Hari Ini</div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-num num-iq">7</div><div class="stat-lbl">IQ poin</div></div>
+            <div class="stat-card"><div class="stat-num num-eq">5</div><div class="stat-lbl">EQ poin</div></div>
+            <div class="stat-card"><div class="stat-num num-sq">4</div><div class="stat-lbl">SQ poin</div></div>
+          </div>
+          <div class="info-row"><div class="info-dot"></div><span>Anak sudah bermain 3 sesi hari ini</span></div>
+          <div class="info-row"><div class="info-dot"></div><span>Pantau detail & rekomendasi di menu Pantau Anak</span></div>
+
+
+          <!-- HASIL KUESIONER DI HOME -->
+          <div style="margin-top:1.25rem;">
+            <div class="section-title">Respon Stres Anak</div>
+            <div class="hasil-box">
+              <div class="hasil-title">Hasil Kuesioner Respon Stres</div>
+              <div class="hasil-sub" id="hasil-tgl"></div>
+              <div class="hasil-dominant" id="hasil-dominant-card"></div>
+              <div id="hasil-bars"></div>
+              <button class="btn-isi-ulang" onclick="ulangiKuesioner()">🔄 Isi Ulang Kuesioner</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SISTEM TRIBEE -->
+      <div class="screen" id="tab-sistem">
+        <div style="padding-bottom:0.5rem;">
+          <div style="font-size:17px;font-weight:800;color:var(--text-1);margin-bottom:4px;">Sistem TRIBEE</div>
+          <div style="font-size:12px;color:var(--text-2);margin-bottom:1.25rem;line-height:1.5;">Memahami sistem stress language pada anak dan penangananya</div>
+
+          <!-- Tab mini fase -->
+          <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
+            <button onclick="switchFase(1)" id="fase-btn-1" style="flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--green-main);background:var(--green-main);color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">🔍 Detect</button>
+            <button onclick="switchFase(2)" id="fase-btn-2" style="flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text-2);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">🔔 Alert</button>
+            <button onclick="switchFase(3)" id="fase-btn-3" style="flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text-2);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">🎯 Act</button>
+            <button onclick="switchFase(4)" id="fase-btn-4" style="flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text-2);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">🌱 Adjust</button>
+            <button onclick="switchFase(5)" id="fase-btn-5" style="flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text-2);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">📊 Monitor</button>
+          </div>
+
+          <!-- ======= FASE 01: DETECT ======= -->
+          <div id="fase-panel-1" class="fase-panel">
+            <div style="background:linear-gradient(135deg,#E0F2F1,#F0FBF9);border:1.5px solid var(--green-main);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+                <div style="width:44px;height:44px;border-radius:12px;background:var(--green-main);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🔍</div>
+                <div style="flex:1;"><div style="font-size:15px;font-weight:800;color:var(--green-dark);">Detect Phase</div><div style="font-size:11px;color:var(--green-dark);opacity:0.8;margin-top:2px;font-weight:600;">Fase 01 — Deteksi Awal</div></div>
+                <span style="font-size:10px;font-weight:700;color:var(--green-dark);background:rgba(0,137,123,0.15);padding:4px 12px;border-radius:99px;">✓ Selesai</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-2);line-height:1.6;">Mendeteksi pola perilaku dan emosi anak melalui kuesioner dan koneksi perangkat anak.</div>
+            </div>
+
+
+            <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <div style="font-size:18px;">🧠</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-1);">Kuesioner Respon Stres</div>
+                <span style="margin-left:auto;font-size:10px;font-weight:600;background:var(--blue-light);color:var(--blue-mid);padding:2px 8px;border-radius:99px;">4 Bagian</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-2);margin-bottom:12px;line-height:1.5;">Kenali pola respons tekanan anak: Fight, Flight, Freeze, dan Fawn.</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                <div style="display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:10px;padding:9px 10px;"><span style="font-size:16px;">⚔️</span><div><div style="font-size:11px;font-weight:700;color:var(--text-1);">Fight</div><div style="font-size:10px;color:var(--text-3);">Melawan</div></div></div>
+                <div style="display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:10px;padding:9px 10px;"><span style="font-size:16px;">🏃</span><div><div style="font-size:11px;font-weight:700;color:var(--text-1);">Flight</div><div style="font-size:10px;color:var(--text-3);">Menghindar</div></div></div>
+                <div style="display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:10px;padding:9px 10px;"><span style="font-size:16px;">🧊</span><div><div style="font-size:11px;font-weight:700;color:var(--text-1);">Freeze</div><div style="font-size:10px;color:var(--text-3);">Diam / Membeku</div></div></div>
+                <div style="display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:10px;padding:9px 10px;"><span style="font-size:16px;">🕊️</span><div><div style="font-size:11px;font-weight:700;color:var(--text-1);">Fawn</div><div style="font-size:10px;color:var(--text-3);">Menyenangkan orang</div></div></div>
+              </div>
+              <button class="btn-kuesioner" onclick="bukaKuesioner()" style="width:100%;padding:12px;font-size:13px;">📝 Mulai Kuesioner (4 Bagian)</button>
+              <div style="text-align:center;margin-top:6px;font-size:10px;color:var(--text-3);">⏱ Estimasi 3–5 menit</div>
+            </div>
+
+            <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <div style="font-size:18px;">📊</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-1);">Hasil Kuesioner Respon Stres</div>
+              </div>
+              <div class="hasil-sub" id="hasil-tgl" style="font-size:11px;color:var(--text-3);margin-bottom:8px;"></div>
+              <div class="hasil-dominant" id="hasil-dominant-card"></div>
+              <div id="hasil-bars" style="margin-top:10px;"></div>
+              <button class="btn-isi-ulang" onclick="ulangiKuesioner()" style="width:100%;margin-top:10px;">🔄 Isi Ulang Kuesioner</button>
+            </div>
+          </div>
+
+          <!-- ======= FASE 02: ALERT ======= -->
+          <div id="fase-panel-2" class="fase-panel" style="display:none;">
+            <div style="background:linear-gradient(135deg,#FEF3C7,#FFFBF0);border:1.5px solid var(--amber-main);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+                <div style="width:44px;height:44px;border-radius:12px;background:var(--amber-main);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🔔</div>
+                <div style="flex:1;"><div style="font-size:15px;font-weight:800;color:var(--amber-dark);">Alert Phase</div><div style="font-size:11px;color:var(--amber-dark);opacity:0.8;margin-top:2px;font-weight:600;">Fase 02 — Peringatan Tingkat Emosi</div></div>
+                <span style="font-size:10px;font-weight:700;color:var(--amber-dark);background:rgba(245,158,11,0.15);padding:4px 12px;border-radius:99px;">✓ Aktif</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-2);line-height:1.6;">Sistem menganalisis frekuensi emosi anak dan memberi peringatan level 1–3 kepada orang tua.</div>
+            </div>
+
+            <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                <div style="font-size:18px;">👀</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-1);">Progres Anak Hari Ini</div>
+              </div>
+              <div class="stat-grid" style="margin-bottom:10px;">
+                <div class="stat-card"><div class="stat-num num-iq">7</div><div class="stat-lbl">IQ poin</div></div>
+                <div class="stat-card"><div class="stat-num num-eq">5</div><div class="stat-lbl">EQ poin</div></div>
+                <div class="stat-card"><div class="stat-num num-sq">4</div><div class="stat-lbl">SQ poin</div></div>
+              </div>
+              <div class="info-row"><div class="info-dot"></div><span>Anak sudah bermain 3 sesi hari ini</span></div>
+              <div class="info-row"><div class="info-dot"></div><span>Detail lengkap tersedia di tab Pantau Anak</span></div>
+            </div>
+
+            <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                <div style="font-size:18px;">⚠️</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-1);">Tingkat Level Kondisi Anak</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="padding:10px 12px;border-radius:10px;background:var(--green-light);border-left:4px solid var(--green-main);"><div style="font-size:12px;font-weight:700;color:var(--green-dark);">Level 1 — Ringan</div><div style="font-size:11px;color:var(--text-2);margin-top:3px;">Perubahan emosi masih dalam batas wajar</div></div>
+                <div style="padding:10px 12px;border-radius:10px;background:var(--amber-light);border-left:4px solid var(--amber-main);"><div style="font-size:12px;font-weight:700;color:var(--amber-dark);">Level 2 — Sedang</div><div style="font-size:11px;color:var(--text-2);margin-top:3px;">Anak mulai menunjukkan tanda stres atau perubahan perilaku yang lebih sering</div></div>
+                <div style="padding:10px 12px;border-radius:10px;background:var(--red-light);border-left:4px solid var(--red-main);"><div style="font-size:12px;font-weight:700;color:var(--red-dark);">Level 3 — Tinggi</div><div style="font-size:11px;color:var(--text-2);margin-top:3px;">Emosi negatif muncul secara intens dan perlu perhatian lebih lanjut</div></div>
+              </div>
+            </div>
+
+            <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                <div style="font-size:18px;">🔔</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-1);">Pengaturan Notifikasi</div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+                <div><div style="font-size:13px;font-weight:600;color:var(--text-1);">Notifikasi Aktif</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">Terima update progres anak</div></div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;">
+                <div><div style="font-size:13px;font-weight:600;color:var(--text-1);">Batas Waktu Main</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;">Maksimal 2 jam per hari</div></div>
+                <div class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ======= FASE 03: ACT ======= -->
+          <div id="fase-panel-3" class="fase-panel" style="display:none;">
+            <div style="background:linear-gradient(135deg,#FEE2E2,#FFF5F5);border:1.5px solid var(--red-main);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+                <div style="width:44px;height:44px;border-radius:12px;background:var(--red-main);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🎯</div>
+                <div style="flex:1;"><div style="font-size:15px;font-weight:800;color:var(--red-dark);">Act Phase</div><div style="font-size:11px;color:var(--red-dark);opacity:0.8;margin-top:2px;font-weight:600;">Fase 03 — Tindakan Penanganan</div></div>
+                <span style="font-size:10px;font-weight:700;color:var(--red-dark);background:var(--red-light);padding:4px 12px;border-radius:99px;">⚡ Premium</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-2);line-height:1.6;">Rekomendasi tindakan konkret diberikan saat level kondisi anak teridentifikasi.</div>
+            </div>
+
+            <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <div style="font-size:18px;">👀</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-1);">Pantau Detail Anak</div>
+                <span style="margin-left:auto;font-size:10px;font-weight:600;background:var(--blue-light);color:var(--blue-mid);padding:2px 8px;border-radius:99px;">Realtime</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-2);margin-bottom:10px;line-height:1.5;">Grafik perkembangan IQ, EQ, SQ anak secara harian dan mingguan beserta analisis emosi otomatis.</div>
+              <button onclick="switchTab('pantau')" style="width:100%;padding:11px;background:transparent;border:1.5px solid var(--blue-mid);color:var(--blue-mid);border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">👀 Buka Pantau Anak</button>
+            </div>
+
+            <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <div style="font-size:18px;">🎯</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-1);">Rekomendasi Training Personal</div>
+                <span style="margin-left:auto;font-size:10px;font-weight:600;background:var(--amber-light);color:var(--amber-dark);padding:2px 8px;border-radius:99px;">⚡ Premium</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-2);margin-bottom:12px;line-height:1.5;">Training disesuaikan dengan kondisi emosi dan pola respons stres anak.</div>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:10px;">
+                  <div style="width:36px;height:36px;border-radius:10px;background:var(--color-eq-light,#FAEEDA);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">💛</div>
+                  <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text-1);">Latihan Napas &amp; Tenang</div><div style="font-size:11px;color:var(--text-2);margin-top:2px;">Teknik pernapasan untuk mengelola rasa cemas</div></div>
+                  <span style="font-size:10px;font-weight:700;background:var(--red-light);color:var(--red-dark);padding:2px 8px;border-radius:99px;">Penting</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:10px;">
+                  <div style="width:36px;height:36px;border-radius:10px;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🌱</div>
+                  <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text-1);">Cerita Nilai Kesabaran</div><div style="font-size:11px;color:var(--text-2);margin-top:2px;">Dongeng &amp; diskusi tentang sabar dan menerima perasaan</div></div>
+                  <span style="font-size:10px;font-weight:700;background:var(--amber-light);color:var(--amber-dark);padding:2px 8px;border-radius:99px;">Disarankan</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:10px;">
+                  <div style="width:36px;height:36px;border-radius:10px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🧩</div>
+                  <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--text-1);">Puzzle &amp; Teka-Teki Mudah</div><div style="font-size:11px;color:var(--text-2);margin-top:2px;">Tingkatkan kepercayaan diri lewat soal logika bertahap</div></div>
+                  <span style="font-size:10px;font-weight:700;background:var(--amber-light);color:var(--amber-dark);padding:2px 8px;border-radius:99px;">Disarankan</span>
+                </div>
+              </div>
+              <button onclick="bukaUpgrade()" style="width:100%;padding:12px;background:var(--blue-mid);color:#fff;border:none;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">❆ Upgrade untuk Akses Penuh</button>
+            </div>
+
+            <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <div style="font-size:18px;">💬</div>
+                <div style="font-size:13px;font-weight:700;color:var(--text-1);">Konsultasi dengan Psikolog Anak</div>
+                <span style="margin-left:auto;font-size:10px;font-weight:600;background:var(--amber-light);color:var(--amber-dark);padding:2px 8px;border-radius:99px;">⚡ Premium</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-2);margin-bottom:12px;line-height:1.5;">Panduan langsung dari psikolog anak berpengalaman berdasarkan kondisi spesifik anak kamu.</div>
+              <button onclick="bukaUpgrade()" style="width:100%;padding:11px;background:transparent;border:1.5px solid var(--amber-main);color:var(--amber-dark);border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">💬 Akses Konsultasi</button>
+            </div>
+          </div>
+
+          <!-- ======= FASE 04: ADJUST ======= -->
+          <div id="fase-panel-4" class="fase-panel" style="display:none;">
+            <div style="background:linear-gradient(135deg,#F3F0FF,#FAF8FF);border:1.5px solid #9B8FD4;border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+                <div style="width:44px;height:44px;border-radius:12px;background:#9B8FD4;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🌱</div>
+                <div style="flex:1;"><div style="font-size:15px;font-weight:800;color:#4B3FA0;">Adjust Phase</div><div style="font-size:11px;color:#4B3FA0;opacity:0.8;margin-top:2px;font-weight:600;">Fase 04 — Pembentukan Kebiasaan Positif</div></div>
+                <span style="font-size:10px;font-weight:700;color:#4B3FA0;background:rgba(155,143,212,0.2);padding:4px 12px;border-radius:99px;">🔒 Segera Hadir</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-2);line-height:1.6;">Membentuk kebiasaan positif anak melalui gamifikasi dan sistem reward interaktif.</div>
+            </div>
+            <div style="opacity:0.72;">
+              <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;margin-bottom:10px;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="font-size:18px;">🎮</div><div style="font-size:13px;font-weight:700;color:var(--text-1);">Gamifikasi Dashboard Anak</div></div>
+                <div style="font-size:12px;color:var(--text-2);margin-bottom:10px;line-height:1.5;">Sistem game edukatif IQ, EQ, SQ yang membuat anak belajar sambil bermain untuk membentuk kebiasaan emosi sehat.</div>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                  <div style="display:flex;align-items:center;gap:8px;"><div style="width:7px;height:7px;border-radius:50%;background:#9B8FD4;flex-shrink:0;"></div><span style="font-size:12px;color:var(--text-2);">Tantangan aktivitas harian (Puzzle, Memori, Napas, Cerita Moral)</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><div style="width:7px;height:7px;border-radius:50%;background:#9B8FD4;flex-shrink:0;"></div><span style="font-size:12px;color:var(--text-2);">Sistem reward atau poin (IQ, EQ, SQ)</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><div style="width:7px;height:7px;border-radius:50%;background:#9B8FD4;flex-shrink:0;"></div><span style="font-size:12px;color:var(--text-2);">Progress perkembangan perilaku positif</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><div style="width:7px;height:7px;border-radius:50%;background:#9B8FD4;flex-shrink:0;"></div><span style="font-size:12px;color:var(--text-2);">Badge &amp; pencapaian untuk motivasi anak</span></div>
+                </div>
+              </div>
+              <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="font-size:18px;">🔥</div><div style="font-size:13px;font-weight:700;color:var(--text-1);">Streak &amp; Konsistensi Harian</div></div>
+                <div style="font-size:12px;color:var(--text-2);line-height:1.5;">Pantau streak bermain anak dan dorong konsistensi harian untuk membangun kebiasaan positif jangka panjang.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ======= FASE 05: MONITOR ======= -->
+          <div id="fase-panel-5" class="fase-panel" style="display:none;">
+            <div style="background:linear-gradient(135deg,#EFF3F7,#F8FAFC);border:1.5px solid #8BA3BC;border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+                <div style="width:44px;height:44px;border-radius:12px;background:#8BA3BC;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📊</div>
+                <div style="flex:1;"><div style="font-size:15px;font-weight:800;color:#4A6280;">Monitor Phase</div><div style="font-size:11px;color:#4A6280;opacity:0.8;margin-top:2px;font-weight:600;">Fase 05 — Pemantauan Berkelanjutan</div></div>
+                <span style="font-size:10px;font-weight:700;color:#4A6280;background:rgba(139,163,188,0.2);padding:4px 12px;border-radius:99px;">🔒 Segera Hadir</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-2);line-height:1.6;">Pemantauan jangka panjang termasuk wearable dan laporan perkembangan berkala.</div>
+            </div>
+            <div style="opacity:0.72;">
+              <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:0 1rem;margin-bottom:10px;">
+                <div style="padding:12px 0;border-bottom:1px solid var(--border);">
+                  <div style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">Akun &amp; Profil</div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bg);">
+                    <div style="display:flex;align-items:center;gap:10px;"><div style="font-size:16px;">👤</div><div><div style="font-size:13px;font-weight:600;color:var(--text-1);">Nama</div><div style="font-size:11px;color:var(--text-3);">Yanto Wilson</div></div></div>
+                    <div style="color:var(--text-3);">›</div>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;">
+                    <div style="display:flex;align-items:center;gap:10px;"><div style="font-size:16px;">🔑</div><div><div style="font-size:13px;font-weight:600;color:var(--text-1);">Ubah Password</div><div style="font-size:11px;color:var(--text-3);">Ganti password akun</div></div></div>
+                    <div style="color:var(--text-3);">›</div>
+                  </div>
+                </div>
+                <div style="padding:12px 0;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:10px;" onclick="bukaUpgrade()"><div style="font-size:16px;">❆</div><div><div style="font-size:13px;font-weight:600;color:var(--blue-mid);">Upgrade ke Premium</div><div style="font-size:11px;color:var(--text-3);">Akses semua fitur eksklusif</div></div></div>
+                    <div style="color:var(--text-3);">›</div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;margin-bottom:10px;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="font-size:18px;">📋</div><div style="font-size:13px;font-weight:700;color:var(--text-1);">Laporan Perkembangan Lengkap</div><span style="margin-left:auto;font-size:10px;font-weight:600;background:var(--amber-light);color:var(--amber-dark);padding:2px 8px;border-radius:99px;">⚡ Premium</span></div>
+                <div style="font-size:12px;color:var(--text-2);line-height:1.5;">Laporan bulanan perkembangan emosi anak secara menyeluruh, termasuk grafik tren dan analisis mendalam.</div>
+              </div>
+              <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1rem;margin-bottom:10px;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="font-size:18px;">⌚</div><div style="font-size:13px;font-weight:700;color:var(--text-1);">Integrasi Wearable</div></div>
+                <div style="font-size:12px;color:var(--text-2);line-height:1.5;">Sambungkan perangkat wearable anak untuk memantau perkembangan fisik dan emosi secara real-time.</div>
+              </div>
+              <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:0 1rem;margin-bottom:10px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;">
+                  <div style="display:flex;align-items:center;gap:10px;"><div style="font-size:16px;">ℹ️</div><div><div style="font-size:13px;font-weight:600;color:var(--text-1);">Tentang TRIBEE</div><div style="font-size:11px;color:var(--text-3);">Versi 1.0.0</div></div></div>
+                  <div style="color:var(--text-3);">›</div>
+                </div>
+              </div>
+              <button class="btn-danger" onclick="logout()">Keluar dari Akun</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PANTAU ANAK -->
+      <div class="screen" id="tab-pantau">
+        <div id="pantau-content"></div>
+      </div>
+
+      <!-- PENGATURAN -->
+      <div class="screen" id="tab-pengaturan">
+        <div class="section-title">Akun</div>
+        <div class="setting-group">
+          <div class="setting-item" onclick="bukaUpgrade()" style="cursor:pointer;">
+            <div class="setting-left"><div class="setting-icon-wrap">✦</div><div><div class="setting-label" style="color:var(--blue-mid);">Upgrade ke Premium</div><div class="setting-sub">Akses semua fitur eksklusif</div></div></div>
+            <div class="setting-arrow">›</div>
+          </div>
+          <div class="setting-item">
+            <div class="setting-left"><div class="setting-icon-wrap">👤</div><div><div class="setting-label">Nama</div><div class="setting-sub">Yanto Wilson</div></div></div>
+            <div class="setting-arrow">›</div>
+          </div>
+          <div class="setting-item">
+            <div class="setting-left"><div class="setting-icon-wrap">🔑</div><div><div class="setting-label">Ubah Password</div><div class="setting-sub">Ganti password akun</div></div></div>
+            <div class="setting-arrow">›</div>
+          </div>
+        </div>
+        <div class="section-title">Notifikasi</div>
+        <div class="setting-group">
+          <div class="setting-item">
+            <div class="setting-left"><div class="setting-icon-wrap">🔔</div><div><div class="setting-label">Notifikasi Aktif</div><div class="setting-sub">Terima update progres anak</div></div></div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="setting-item">
+            <div class="setting-left"><div class="setting-icon-wrap">⏰</div><div><div class="setting-label">Batas Waktu Main</div><div class="setting-sub">Maksimal 2 jam per hari</div></div></div>
+            <div class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+          </div>
+        </div>
+        <div class="section-title">Lainnya</div>
+        <div class="setting-group">
+          <div class="setting-item">
+            <div class="setting-left"><div class="setting-icon-wrap">ℹ️</div><div><div class="setting-label">Tentang TRIBEE</div><div class="setting-sub">Versi 1.0.0</div></div></div>
+            <div class="setting-arrow">›</div>
+          </div>
+        </div>
+        <button class="btn-danger" onclick="logout()">Keluar dari Akun</button>
+      </div>
+
+    </div>
+
+    <!-- MODAL PREMIUM -->
+    <div class="modal-overlay" id="modal-premium">
+      <div class="modal-sheet" style="border-radius:24px 24px 0 0;">
+        <div style="background:linear-gradient(135deg,#08519C,#3182BD);padding:1.5rem 1.25rem 1.25rem;border-radius:24px 24px 0 0;text-align:center;position:relative;">
+          <button onclick="tutupPremium()" style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,0.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+          <div style="font-size:32px;margin-bottom:8px;">✦</div>
+          <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;">TRIBEE Premium</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.5;">Akses penuh rekomendasi training & semua fitur eksklusif untuk tumbuh kembang anak</div>
+        </div>
+
+        <div style="padding:1.25rem;overflow-y:auto;">
+          <!-- Fitur list -->
+          <div style="margin-bottom:1.25rem;">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #EFF3FF;">
+              <div style="font-size:14px;">🎯 Rekomendasi training personal per anak</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #EFF3FF;">
+              <div style="font-size:14px;">🧠 Analisis emosi mendalam bulanan</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #EFF3FF;">
+              <div style="font-size:14px;">📊 Laporan perkembangan lengkap</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #EFF3FF;">
+              <div style="font-size:14px;">🔔 Notifikasi prioritas & peringatan dini</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #EFF3FF;">
+              <div style="font-size:14px;">💬 Konsultasi dengan psikolog anak</div>
+            </div>
+          </div>
+
+          <!-- Toggle bulanan/tahunan -->
+          <div style="display:flex;background:var(--blue-pale);border-radius:50px;padding:4px;margin-bottom:1.25rem;" id="toggle-paket">
+            <div id="tab-bulanan" onclick="switchPaket('bulanan')" style="flex:1;text-align:center;padding:8px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;background:var(--blue-mid);color:#fff;transition:all 0.2s;">Bulanan</div>
+            <div id="tab-tahunan" onclick="switchPaket('tahunan')" style="flex:1;text-align:center;padding:8px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text-3);transition:all 0.2s;">Tahunan <span style="font-size:10px;background:var(--green-light);color:var(--green-dark);padding:2px 6px;border-radius:10px;margin-left:4px;">Hemat 40%</span></div>
+          </div>
+
+          <!-- Kartu paket bulanan -->
+          <div id="paket-bulanan">
+            <div style="border:2px solid #3182BD;border-radius:16px;padding:1.25rem;text-align:center;margin-bottom:12px;">
+              <div style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Bulanan</div>
+              <div style="font-size:36px;font-weight:700;color:var(--blue-mid);">Rp49<span style="font-size:16px;font-weight:400;color:var(--text-3);">.000</span></div>
+              <div style="font-size:12px;color:var(--text-3);margin-bottom:16px;">per bulan • tagih tiap bulan</div>
+              <button onclick="prosesUpgrade('bulanan')" style="width:100%;padding:13px;background:var(--blue-mid);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Mulai Sekarang</button>
+            </div>
+          </div>
+
+          <!-- Kartu paket tahunan -->
+          <div id="paket-tahunan" style="display:none;">
+            <div style="border:2px solid #3182BD;border-radius:16px;padding:1.25rem;text-align:center;margin-bottom:12px;position:relative;overflow:hidden;">
+              <div style="position:absolute;top:12px;right:-20px;background:#0F6E56;color:#fff;font-size:10px;font-weight:700;padding:4px 28px;transform:rotate(35deg);">TERBAIK</div>
+              <div style="font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Tahunan</div>
+              <div style="font-size:36px;font-weight:700;color:var(--blue-mid);">Rp349<span style="font-size:16px;font-weight:400;color:var(--text-3);">.000</span></div>
+              <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">per tahun • tagih sekali setahun</div>
+              <div style="font-size:11px;color:var(--green-dark);font-weight:600;margin-bottom:16px;">≈ Rp29.000/bulan — hemat Rp240.000!</div>
+              <button onclick="prosesUpgrade('tahunan')" style="width:100%;padding:13px;background:var(--blue-mid);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Mulai Sekarang</button>
+            </div>
+          </div>
+
+          <div style="text-align:center;font-size:11px;color:var(--text-3);margin-top:8px;padding-bottom:1rem;">🔒 Pembayaran aman • Bisa dibatalkan kapan saja</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL SUKSES UPGRADE -->
+    <div class="modal-overlay" id="modal-sukses" style="align-items:center;justify-content:center;">
+      <div style="background:#fff;border-radius:24px;padding:2rem 1.5rem;max-width:320px;width:90%;text-align:center;animation:slideUp 0.3s ease;">
+        <div style="font-size:52px;margin-bottom:12px;">🎉</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text-1);margin-bottom:8px;">Selamat! Kamu Premium!</div>
+        <div style="font-size:13px;color:var(--text-3);line-height:1.6;margin-bottom:1.5rem;" id="sukses-desc"></div>
+        <button onclick="selesaiUpgrade()" style="width:100%;padding:13px;background:var(--blue-mid);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Mulai Gunakan Premium ✦</button>
+      </div>
+    </div>
+
+    <!-- MODAL KUESIONER -->
+    <div class="modal-overlay" id="modal-kuesioner">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <div class="modal-title" id="modal-cat-title">Fight — Respon Melawan</div>
+          <div class="modal-progress-bar"><div class="modal-progress-fill" id="modal-progress" style="width:25%"></div></div>
+          <div class="modal-progress-label" id="modal-progress-label">Bagian 1 dari 4</div>
+        </div>
+        <div class="modal-body" id="modal-body"></div>
+        <div class="modal-footer">
+          <button class="btn-modal-back" id="btn-back" onclick="prevSeksi()" style="display:none">← Kembali</button>
+          <button class="btn-modal-next" id="btn-next" onclick="nextSeksi()">Lanjut →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item active" id="nav-home" onclick="switchTab('home')"><div class="nav-icon"></div><div class="nav-label">Home</div></div>
+      <div class="nav-item" id="nav-sistem" onclick="switchTab('sistem')"><div class="nav-icon"></div><div class="nav-label">Sistem</div></div>
+      <div class="nav-item" id="nav-pantau" onclick="switchTab('pantau')"><div class="nav-icon"></div><div class="nav-label">Pantau Anak</div></div>
+      <div class="nav-item" id="nav-pengaturan" onclick="switchTab('pengaturan')"><div class="nav-icon"></div><div class="nav-label">Pengaturan</div></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Data progres anak (nanti dari database)
+  const anakData = [
+    { nama: 'Anak #1', avatar: '🧒', aktif: 'Hari ini, 10:30', iq: 55, eq: 20, sq: 30 },
+    { nama: 'Anak #2', avatar: '👧', aktif: 'Kemarin, 15:20', iq: 85, eq: 75, sq: 25 }
+  ];
+
+  // Sistem deteksi emosi otomatis dari data progres
+  function deteksiEmosi(anak) {
+    const { iq, eq, sq } = anak;
+    if (eq < 40) return { emosi: 'Cemas / Tidak Stabil', kelas: 'emosi-cemas', icon: '😟' };
+    if (eq >= 40 && eq < 60 && iq > 70) return { emosi: 'Tegang / Fokus Berlebih', kelas: 'emosi-marah', icon: '😤' };
+    if (sq < 35) return { emosi: 'Kurang Motivasi', kelas: 'emosi-bosan', icon: '😐' };
+    if (eq >= 60 && iq >= 60 && sq >= 50) return { emosi: 'Senang & Termotivasi', kelas: 'emosi-senang', icon: '😊' };
+    return { emosi: 'Perlu Perhatian', kelas: 'emosi-sedih', icon: '😔' };
+  }
+
+  // Rekomendasi training berdasarkan emosi & data progres
+  function getRekomendasi(anak) {
+    const { iq, eq, sq } = anak;
+    const rekom = [];
+
+    if (eq < 40) {
+      rekom.push({ icon: '💛', tipe: 'badge-eq', nama: 'Latihan Napas & Tenang', desc: 'Bantu anak mengelola rasa cemas dengan teknik pernapasan', tag: 'tag-penting', tagText: 'Penting' });
+      rekom.push({ icon: '🌱', tipe: 'badge-sq', nama: 'Cerita Nilai Kesabaran', desc: 'Dongeng & diskusi tentang sabar dan menerima perasaan', tag: 'tag-disarankan', tagText: 'Disarankan' });
+    }
+    if (eq >= 40 && eq < 60) {
+      rekom.push({ icon: '💛', tipe: 'badge-eq', nama: 'Permainan Ekspresi Emosi', desc: 'Latih anak mengenali dan mengungkapkan perasaannya', tag: 'tag-disarankan', tagText: 'Disarankan' });
+    }
+    if (sq < 40) {
+      rekom.push({ icon: '🌱', tipe: 'badge-sq', nama: 'Aktivitas Berbagi & Empati', desc: 'Simulasi situasi tolong-menolong untuk bangun nilai sosial', tag: 'tag-penting', tagText: 'Penting' });
+    }
+    if (iq < 60) {
+      rekom.push({ icon: '🧩', tipe: 'badge-iq', nama: 'Puzzle & Teka-Teki Mudah', desc: 'Tingkatkan kepercayaan diri lewat soal logika bertahap', tag: 'tag-disarankan', tagText: 'Disarankan' });
+    }
+    if (eq >= 60 && iq >= 70) {
+      rekom.push({ icon: '🧩', tipe: 'badge-iq', nama: 'Tantangan Logika Lanjutan', desc: 'Anak sudah siap untuk soal yang lebih menantang', tag: 'tag-bonus', tagText: 'Bonus' });
+    }
+    if (sq >= 50 && eq >= 60) {
+      rekom.push({ icon: '🌱', tipe: 'badge-sq', nama: 'Proyek Kebaikan Mini', desc: 'Ajak anak merancang 1 kebaikan kecil untuk orang sekitar', tag: 'tag-bonus', tagText: 'Bonus' });
+    }
+    if (rekom.length === 0) {
+      rekom.push({ icon: '⭐', tipe: 'badge-eq', nama: 'Pertahankan Semangat!', desc: 'Progres anak sudah bagus, lanjutkan latihan rutin', tag: 'tag-bonus', tagText: 'Bagus!' });
+    }
+    return rekom;
+  }
+
+  // Data tracking emosi per anak (dummy 7 hari)
+  const REPLACED_trackingData = {
+    0: {
+      hari: ['Sen','Sel','Rab','Kam','Jum','Sab','Min'],
+      minggu: ['M1','M2','M3','M4'],
+      iq_h: [65,68,70,67,72,70,74], eq_h: [28,30,32,29,31,30,33], sq_h: [38,40,39,42,40,41,43],
+      iq_m: [60,65,68,70],         eq_m: [25,28,30,30],           sq_m: [35,38,40,42]
+    },
+    1: {
+      hari: ['Sen','Sel','Rab','Kam','Jum','Sab','Min'],
+      minggu: ['M1','M2','M3','M4'],
+      iq_h: [80,82,83,85,84,86,85], eq_h: [70,72,74,75,73,76,75], sq_h: [22,24,23,25,24,26,25],
+      iq_m: [75,80,83,85],          eq_m: [65,70,73,75],           sq_m: [18,22,24,25]
+    }
+  };
+
+  function buildChart(idx, mode) {
+    const d = trackingData[idx];
+    const labels = mode === 'hari' ? d.hari : d.minggu;
+    const iqVals = mode === 'hari' ? d.iq_h : d.iq_m;
+    const eqVals = mode === 'hari' ? d.eq_h : d.eq_m;
+    const sqVals = mode === 'hari' ? d.sq_h : d.sq_m;
+    const n = labels.length;
+    const W = 280, H = 100, pad = 10;
+    const xStep = (W - pad * 2) / (n - 1);
+
+    function pts(vals) {
+      return vals.map((v, i) => `${pad + i * xStep},${H - pad - (v / 100) * (H - pad * 2)}`).join(' ');
+    }
+    function polyline(vals, color) {
+      return `<polyline points="${pts(vals)}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    }
+    function dots(vals, color) {
+      return vals.map((v, i) => `<circle cx="${pad + i * xStep}" cy="${H - pad - (v / 100) * (H - pad * 2)}" r="3" fill="${color}" stroke="#fff" stroke-width="1.5"/>`).join('');
+    }
+
+    // grid lines
+    let grid = '';
+    [25, 50, 75].forEach(y => {
+      const cy = H - pad - (y / 100) * (H - pad * 2);
+      grid += `<line x1="${pad}" y1="${cy}" x2="${W - pad}" y2="${cy}" stroke="#E8EEF4" stroke-width="1"/>`;
+      grid += `<text x="${pad - 2}" y="${cy + 3}" font-size="8" fill="#9ECAE1" text-anchor="end">${y}</text>`;
+    });
+
+    const labelHtml = labels.map(l => `<div class="chart-label">${l}</div>`).join('');
+
+    return { svg: `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${grid}${polyline(iqVals,'#3182BD')}${polyline(eqVals,'#EF9F27')}${polyline(sqVals,'#1D9E75')}${dots(iqVals,'#3182BD')}${dots(eqVals,'#EF9F27')}${dots(sqVals,'#1D9E75')}</svg>`, labels: labelHtml };
+  }
+
+  function switchTrackingTab(anakIdx, mode) {
+    const chart = buildChart(anakIdx, mode);
+    document.getElementById(`chart-svg-${anakIdx}`).innerHTML = chart.svg;
+    document.getElementById(`chart-labels-${anakIdx}`).innerHTML = chart.labels;
+    document.querySelectorAll(`.ttab-${anakIdx}`).forEach(t => t.classList.remove('active'));
+    document.getElementById(`ttab-${anakIdx}-${mode}`).classList.add('active');
+  }
+
+  // Data tracking emosi bulanan per anak (dummy 30 hari)
+  // frekuensi = jumlah hari emosi negatif muncul dalam sebulan
+  const trackingBulanan = [
+    {
+      frekuensi: 26, // Anak #1 — emosi negatif 26 hari dari 30 (TINGGI)
+      riwayat: [
+        { minggu: 'Minggu 1', muncul: 6, total: 7 },
+        { minggu: 'Minggu 2', muncul: 7, total: 7 },
+        { minggu: 'Minggu 3', muncul: 6, total: 7 },
+        { minggu: 'Minggu 4', muncul: 7, total: 9 },
+      ]
+    },
+    {
+      frekuensi: 7, // Anak #2 — emosi negatif 7 hari dari 30 (RINGAN)
+      riwayat: [
+        { minggu: 'Minggu 1', muncul: 1, total: 7 },
+        { minggu: 'Minggu 2', muncul: 2, total: 7 },
+        { minggu: 'Minggu 3', muncul: 2, total: 7 },
+        { minggu: 'Minggu 4', muncul: 2, total: 9 },
+      ]
+    }
+  ];
+
+  function getLevel(frekuensi) {
+    if (frekuensi <= 8)  return { level: 1, label: 'Ringan',  warna: '#0F6E56', bg: '#E1F5EE', border: '#1D9E75', icon: '🟢', desc: 'Perubahan emosi masih dalam batas wajar. Tetap pantau perkembangannya.' };
+    if (frekuensi <= 18) return { level: 2, label: 'Sedang',  warna: '#BA7517', bg: '#FAEEDA', border: '#EF9F27', icon: '🟡', desc: 'Anak mulai sering menunjukkan tanda stres. Orang tua perlu mulai memberikan penanganan.' };
+    return               { level: 3, label: 'Tinggi',  warna: '#A32D2D', bg: '#FCEBEB', border: '#E24B4A', icon: '🔴', desc: 'Emosi negatif muncul sangat sering dan intens. Diperlukan penanganan lebih lanjut segera.' };
+  }
+
+  // Notif dummy — muncul kalau level 2 atau 3
+  const notifTerkirim = [false, false];
+
+  function kirimNotif(anakIdx, level) {
+    if (notifTerkirim[anakIdx]) return;
+    notifTerkirim[anakIdx] = true;
+    const anak = anakData[anakIdx];
+    const el = document.getElementById(`notif-banner-${anakIdx}`);
+    if (!el) return;
+    el.style.display = 'flex';
+    setTimeout(() => { el.style.opacity = '1'; }, 50);
+  }
+
+  function toggleTracking(anakIdx) {
+    const panel = document.getElementById(`tracking-panel-${anakIdx}`);
+    const arrow = document.getElementById(`tracking-arrow-${anakIdx}`);
+    panel.classList.toggle('open');
+    arrow.classList.toggle('open');
+  }
+
+  function renderPantau() {
+    const container = document.getElementById('pantau-content');
+    let html = '';
+    anakData.forEach((anak, idx) => {
+      const emosi = deteksiEmosi(anak);
+      const rekom = getRekomendasi(anak);
+      const tb = trackingBulanan[idx];
+      const lv = getLevel(tb.frekuensi);
+      const pct = Math.round(tb.frekuensi / 30 * 100);
+
+      // Notif banner
+      let notifHtml = '';
+      if (lv.level === 2) {
+        notifHtml = `<div id="notif-banner-${idx}" style="display:none;opacity:0;transition:opacity 0.4s;align-items:flex-start;gap:10px;background:var(--amber-light);border:1.5px solid var(--amber-main);border-radius:12px;padding:12px;margin-bottom:10px;">
+          <div style="font-size:20px;flex-shrink:0;">🔔</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--amber-dark);">Perhatian — ${anak.nama} Perlu Penanganan</div>
+            <div style="font-size:12px;color:var(--amber-dark);margin-top:3px;line-height:1.5;">Emosi negatif sudah muncul ${tb.frekuensi} hari bulan ini. Mulai berikan pendampingan dan aktivitas pengelolaan emosi.</div>
+          </div>
+        </div>`;
+      } else if (lv.level === 3) {
+        notifHtml = `<div id="notif-banner-${idx}" style="display:none;opacity:0;transition:opacity 0.4s;align-items:flex-start;gap:10px;background:var(--red-light);border:1.5px solid var(--red-main);border-radius:12px;padding:12px;margin-bottom:10px;">
+          <div style="font-size:20px;flex-shrink:0;">🚨</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--red-dark);">Peringatan Serius — ${anak.nama} Butuh Penanganan Lanjut</div>
+            <div style="font-size:12px;color:var(--red-dark);margin-top:3px;line-height:1.5;">Emosi negatif muncul ${tb.frekuensi} hari bulan ini dan mulai intens. Segera konsultasikan dengan tenaga ahli atau psikolog anak.</div>
+          </div>
+        </div>`;
+      }
+
+      // Bar minggu
+      const barMinggu = tb.riwayat.map(m => {
+        const mp = Math.round(m.muncul / m.total * 100);
+        const barColor = mp >= 70 ? '#E24B4A' : mp >= 40 ? '#EF9F27' : '#1D9E75';
+        return `<div style="flex:1;">
+          <div style="font-size:10px;color:var(--text-3);text-align:center;margin-bottom:4px;">${m.minggu.replace('Minggu ','M')}</div>
+          <div style="height:60px;background:#F0F4F8;border-radius:6px;overflow:hidden;display:flex;align-items:flex-end;">
+            <div style="width:100%;height:${mp}%;background:${barColor};border-radius:4px;transition:height 0.5s;"></div>
+          </div>
+          <div style="font-size:10px;color:var(--text-3);text-align:center;margin-top:4px;">${m.muncul}/${m.total}h</div>
+        </div>`;
+      }).join('');
+
+      html += `
+        <div class="section-title">${anak.nama}</div>
+        ${notifHtml}
+        <div class="anak-card">
+          <div class="anak-top">
+            <div class="anak-avatar">${anak.avatar}</div>
+            <div style="flex:1;">
+              <div class="anak-name">${anak.nama}</div>
+              <div class="anak-sub">Terakhir aktif: ${anak.aktif}</div>
+            </div>
+            <span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:${lv.bg};color:${lv.warna};border:1px solid ${lv.border};">${lv.icon} Level ${lv.level} — ${lv.label}</span>
+          </div>
+          <div class="progress-row"><div class="progress-lbl num-iq">IQ</div><div class="progress-wrap"><div class="progress-fill" style="width:${anak.iq}%;background:var(--blue-main);"></div></div><div class="progress-pct">${anak.iq}%</div></div>
+          <div class="progress-row"><div class="progress-lbl num-eq">EQ</div><div class="progress-wrap"><div class="progress-fill" style="width:${anak.eq}%;background:var(--amber-main);"></div></div><div class="progress-pct">${anak.eq}%</div></div>
+          <div class="progress-row"><div class="progress-lbl num-sq">SQ</div><div class="progress-wrap"><div class="progress-fill" style="width:${anak.sq}%;background:var(--green-main);"></div></div><div class="progress-pct">${anak.sq}%</div></div>
+
+          <!-- TRACKING EMOSI TOGGLE -->
+          <div class="tracking-toggle" onclick="toggleTracking(${idx})">
+            <div class="tracking-toggle-label">🧠 Tracking Emosi Bulanan</div>
+            <div class="tracking-toggle-arrow" id="tracking-arrow-${idx}">▼</div>
+          </div>
+          <div class="tracking-panel" id="tracking-panel-${idx}">
+
+            <!-- Frekuensi meter -->
+            <div style="background:var(--blue-pale);border-radius:12px;padding:12px;margin-bottom:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <div style="font-size:12px;font-weight:600;color:var(--text-1);">Emosi Negatif Bulan Ini</div>
+                <div style="font-size:13px;font-weight:700;color:${lv.warna};">${tb.frekuensi} / 30 hari</div>
+              </div>
+              <div style="height:10px;background:#C6DBEF;border-radius:5px;overflow:hidden;margin-bottom:8px;">
+                <div style="height:100%;width:${pct}%;background:${lv.warna};border-radius:5px;transition:width 0.6s;"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <div style="font-size:10px;color:#1D9E75;font-weight:600;">0 — Ringan</div>
+                <div style="font-size:10px;color:#EF9F27;font-weight:600;">9 — Sedang</div>
+                <div style="font-size:10px;color:var(--red-dark);font-weight:600;">19+ Tinggi</div>
+              </div>
+            </div>
+
+            <!-- Level card -->
+            <div style="background:${lv.bg};border:1.5px solid ${lv.border};border-radius:12px;padding:12px;margin-bottom:12px;">
+              <div style="font-size:13px;font-weight:700;color:${lv.warna};margin-bottom:4px;">${lv.icon} Level ${lv.level} — ${lv.label}</div>
+              <div style="font-size:12px;color:${lv.warna};line-height:1.5;">${lv.desc}</div>
+            </div>
+
+            <!-- Bar per minggu -->
+            <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Frekuensi per Minggu</div>
+            <div style="display:flex;gap:6px;align-items:flex-end;">${barMinggu}</div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:6px;">*angka = hari emosi negatif muncul / total hari</div>
+          </div>
+        </div>
+
+        ${lv.level === 3 ? `
+        <div class="rekomendasi-box" style="position:relative;overflow:hidden;">
+          <div class="rekomendasi-header">
+            <div class="rekomendasi-icon">🎯</div>
+            <div>
+              <div class="rekomendasi-title">Rekomendasi Training</div>
+              <div class="rekomendasi-sub">Khusus kondisi Level 3 — ${anak.nama}</div>
+            </div>
+            ${window._premium ? `<span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--green-light);color:var(--green-dark);margin-left:auto;flex-shrink:0;">✦ Premium Aktif</span>` : `<span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--blue-main);color:#fff;margin-left:auto;flex-shrink:0;">✦ Premium</span>`}
+          </div>
+
+          ${window._premium ? `
+            ${rekom.map(r => `
+              <div class="training-item">
+                <div class="training-badge ${r.tipe}">${r.icon}</div>
+                <div style="flex:1;">
+                  <div class="training-name">${r.nama}</div>
+                  <div class="training-desc">${r.desc}</div>
+                </div>
+                <div class="training-tag ${r.tag}">${r.tagText}</div>
+              </div>
+            `).join('')}
+          ` : `
+          <div style="position:relative;">
+            <div style="filter:blur(3px);pointer-events:none;user-select:none;">
+              ${rekom.map(r => `
+                <div class="training-item">
+                  <div class="training-badge ${r.tipe}">${r.icon}</div>
+                  <div style="flex:1;">
+                    <div class="training-name">${r.nama}</div>
+                    <div class="training-desc">${r.desc}</div>
+                  </div>
+                  <div class="training-tag ${r.tag}">${r.tagText}</div>
+                </div>
+              `).join('')}
+            </div>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.6);border-radius:12px;">
+              <div style="font-size:28px;">🔒</div>
+              <div style="font-size:13px;font-weight:700;color:var(--text-1);">Fitur Premium</div>
+              <div style="font-size:11px;color:var(--text-3);text-align:center;line-height:1.5;max-width:200px;">Upgrade ke Premium untuk mengakses rekomendasi training eksklusif ini</div>
+              <button onclick="bukaUpgrade()" style="margin-top:4px;padding:9px 22px;background:var(--blue-mid);color:#fff;border:none;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">✦ Upgrade Sekarang</button>
+            </div>
+          </div>`}
+        </div>
+        ` : ''}
+      `;
+    });
+    container.innerHTML = html;
+
+    // Trigger notif untuk level 2 & 3
+    anakData.forEach((_, idx) => {
+      const lv = getLevel(trackingBulanan[idx].frekuensi);
+      if (lv.level >= 2) setTimeout(() => kirimNotif(idx, lv.level), 600);
+    });
+  }
+
+  function switchTab(tab) {
+    ['home','sistem','pantau','pengaturan'].forEach(t => {
+      document.getElementById('tab-' + t).classList.remove('active');
+      document.getElementById('nav-' + t).classList.remove('active');
+    });
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('nav-' + tab).classList.add('active');
+    if (tab === 'pantau') renderPantau();
+  }
+
+  // ===== SWITCH FASE di tab Sistem =====
+  const faseBtnColors = {
+    1: { bg: 'var(--green-main)', border: 'var(--green-main)' },
+    2: { bg: 'var(--amber-main)', border: 'var(--amber-main)' },
+    3: { bg: 'var(--red-main)', border: 'var(--red-main)' },
+    4: { bg: '#9B8FD4', border: '#9B8FD4' },
+    5: { bg: '#8BA3BC', border: '#8BA3BC' }
+  };
+  function switchFase(n) {
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById('fase-panel-' + i).style.display = i === n ? 'block' : 'none';
+      const btn = document.getElementById('fase-btn-' + i);
+      if (i === n) {
+        btn.style.background = faseBtnColors[i].bg;
+        btn.style.borderColor = faseBtnColors[i].border;
+        btn.style.color = '#fff';
+      } else {
+        btn.style.background = 'transparent';
+        btn.style.borderColor = 'var(--border)';
+        btn.style.color = 'var(--text-2)';
+      }
+    }
+  }
+
+  function generateKode() {
+    const kode = Math.random().toString(36).substring(2, 8).toUpperCase();
+    document.getElementById('kode-val').textContent = kode;
+    document.getElementById('state-belum').style.display = 'none';
+    document.getElementById('state-kode').style.display = 'block';
+  }
+
+  function generateKodeDetect() {
+    const kode = Math.random().toString(36).substring(2, 8).toUpperCase();
+    document.getElementById('detect-kode-val').textContent = kode;
+    document.getElementById('detect-state-belum').style.display = 'none';
+    document.getElementById('detect-state-kode').style.display = 'block';
+  }
+
+  function simulasiKonekDetect() {
+    document.getElementById('detect-state-kode').style.display = 'none';
+    document.getElementById('detect-state-konek').style.display = 'block';
+  }
+
+  function simulasiKonek() {
+    document.getElementById('state-kode').style.display = 'none';
+    document.getElementById('state-onboarding').style.display = 'block';
+  }
+
+  // ============ KUESIONER RESPON STRES ============
+  const seksiKuesioner = [
+    {
+      id: 'fight', label: '⚔️ Fight', title: 'Fight — Respon Melawan',
+      pertanyaan: [
+        'Ketika merasa kesal atau tertekan, anak saya mudah marah kepada orang lain.',
+        'Anak saya meninggikan suara atau berteriak ketika sedang marah.',
+        'Anak saya membanting atau melempar barang ketika sangat kesal.',
+        'Anak saya menyalahkan orang lain ketika sesuatu tidak berjalan sesuai keinginannya.',
+        'Anak saya melawan atau membantah orang yang membuatnya kesal.'
+      ]
+    },
+    {
+      id: 'flight', label: '🏃 Flight', title: 'Flight — Respon Menghindar',
+      pertanyaan: [
+        'Anak saya menghindari masalah ketika merasa tertekan.',
+        'Anak saya mengatakan baik-baik saja walaupun terlihat sedang sedih atau kesal.',
+        'Anak saya lebih memilih menjauh dari orang yang membuatnya tidak nyaman.',
+        'Anak saya mengalihkan perhatian dengan kegiatan lain agar tidak memikirkan masalahnya.',
+        'Anak saya menghindari pembicaraan tentang masalah yang sedang dihadapinya.'
+      ]
+    },
+    {
+      id: 'freeze', label: '🧊 Freeze', title: 'Freeze — Respon Diam / Membeku',
+      pertanyaan: [
+        'Anak saya menjadi sangat diam ketika sedang menghadapi masalah.',
+        'Anak saya terlihat bingung dan tidak tahu harus melakukan apa ketika menghadapi tekanan.',
+        'Anak saya menarik diri dari lingkungan ketika sedang stres.',
+        'Anak saya kesulitan mengambil keputusan ketika sedang mengalami tekanan.',
+        'Anak saya terlihat pasif dan tidak melakukan apa pun ketika menghadapi masalah.'
+      ]
+    },
+    {
+      id: 'fawn', label: '🕊️ Fawn', title: 'Fawn — Respon Menyenangkan Orang Lain',
+      pertanyaan: [
+        'Anak saya berusaha menyenangkan orang lain agar konflik tidak terjadi.',
+        'Anak saya sering mengalah agar tidak terjadi pertengkaran.',
+        'Anak saya mencoba menenangkan orang lain ketika terjadi konflik.',
+        'Anak saya lebih memikirkan perasaan orang lain daripada perasaannya sendiri.',
+        'Anak saya berusaha memperbaiki suasana agar semua orang tetap merasa nyaman.'
+      ]
+    }
+  ];
+  const opsiJawaban = ['Tidak pernah','Jarang','Terkadang','Sering','Selalu'];
+  const deskripsiDominan = {
+    fight: 'Anak cenderung merespons stres dengan ekspresi amarah atau konfrontasi. Ia butuh dukungan dalam mengelola emosi secara konstruktif.',
+    flight: 'Anak cenderung menghindari masalah atau menyembunyikan perasaan. Ia butuh ruang aman untuk mengungkapkan diri.',
+    freeze: 'Anak cenderung diam dan menarik diri saat stres. Ia butuh pendampingan lembut agar tidak merasa sendirian.',
+    fawn: 'Anak cenderung mengutamakan orang lain di atas dirinya sendiri. Ia butuh validasi bahwa perasaannya juga penting.'
+  };
+
+  let currentSeksi = 0;
+  let jawaban = { fight: [], flight: [], freeze: [], fawn: [] };
+
+  function bukaKuesioner() {
+    currentSeksi = 0;
+    jawaban = { fight: Array(5).fill(null), flight: Array(5).fill(null), freeze: Array(5).fill(null), fawn: Array(5).fill(null) };
+    renderSeksi();
+    document.getElementById('modal-kuesioner').classList.add('open');
+  }
+
+  function tutupKuesioner() {
+    document.getElementById('modal-kuesioner').classList.remove('open');
+  }
+
+  function renderSeksi() {
+    const s = seksiKuesioner[currentSeksi];
+    const jawabanSeksi = jawaban[s.id];
+    document.getElementById('modal-cat-title').textContent = s.title;
+    document.getElementById('modal-progress').style.width = ((currentSeksi + 1) / 4 * 100) + '%';
+    document.getElementById('modal-progress-label').textContent = `Bagian ${currentSeksi + 1} dari 4`;
+    document.getElementById('btn-back').style.display = currentSeksi === 0 ? 'none' : 'block';
+    document.getElementById('btn-next').textContent = currentSeksi === 3 ? 'Lihat Hasil ✓' : 'Lanjut →';
+
+    let html = `<div class="q-category">${s.label}</div>`;
+    s.pertanyaan.forEach((p, qi) => {
+      html += `<div class="q-item"><div class="q-text">${qi + 1}. ${p}</div><div class="q-options">`;
+      opsiJawaban.forEach((op, oi) => {
+        const sel = jawabanSeksi[qi] === oi + 1 ? 'selected' : '';
+        html += `<label class="q-option ${sel}" onclick="pilihJawaban('${s.id}',${qi},${oi+1},this)">
+          <input type="radio" name="q_${s.id}_${qi}" value="${oi+1}" ${jawabanSeksi[qi] === oi+1 ? 'checked' : ''}>
+          <span class="q-option-label">${oi+1}. ${op}</span>
+        </label>`;
+      });
+      html += `</div></div>`;
+    });
+    document.getElementById('modal-body').innerHTML = html;
+    document.getElementById('modal-body').scrollTop = 0;
+    updateNextBtn();
+  }
+
+  function pilihJawaban(seksiId, qi, val, el) {
+    jawaban[seksiId][qi] = val;
+    const opts = el.closest('.q-options').querySelectorAll('.q-option');
+    opts.forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    updateNextBtn();
+  }
+
+  function updateNextBtn() {
+    const s = seksiKuesioner[currentSeksi];
+    const done = jawaban[s.id].every(v => v !== null);
+    document.getElementById('btn-next').disabled = !done;
+  }
+
+  function nextSeksi() {
+    const s = seksiKuesioner[currentSeksi];
+    if (!jawaban[s.id].every(v => v !== null)) return;
+    if (currentSeksi < 3) {
+      currentSeksi++;
+      renderSeksi();
+    } else {
+      tutupKuesioner();
+      tampilkanHasil();
+    }
+  }
+
+  function prevSeksi() {
+    if (currentSeksi > 0) { currentSeksi--; renderSeksi(); }
+  }
+
+  function tampilkanHasil() {
+    const skor = {};
+    seksiKuesioner.forEach(s => {
+      skor[s.id] = jawaban[s.id].reduce((a, b) => a + b, 0);
+    });
+    const maks = 25;
+    const dominanId = Object.keys(skor).reduce((a, b) => skor[a] > skor[b] ? a : b);
+    const dominan = seksiKuesioner.find(s => s.id === dominanId);
+    const labelMap = { fight: '⚔️ Fight', flight: '🏃 Flight', freeze: '🧊 Freeze', fawn: '🕊️ Fawn' };
+    const barClass = { fight: 'bar-fight', flight: 'bar-flight', freeze: 'bar-freeze', fawn: 'bar-fawn' };
+
+    document.getElementById('hasil-dominant-card').innerHTML = `
+      <div style="font-size:32px;">${dominan.label.split(' ')[0]}</div>
+      <div>
+        <div class="hasil-dominant-name">${dominan.label} — Dominan</div>
+        <div class="hasil-dominant-desc">${deskripsiDominan[dominanId]}</div>
+      </div>`;
+
+    let barsHtml = '';
+    seksiKuesioner.forEach(s => {
+      const pct = Math.round(skor[s.id] / maks * 100);
+      barsHtml += `<div class="hasil-bar-row">
+        <div class="hasil-bar-lbl">${labelMap[s.id]}</div>
+        <div class="hasil-bar-wrap"><div class="hasil-bar-fill ${barClass[s.id]}" style="width:${pct}%"></div></div>
+        <div class="hasil-bar-pct">${pct}%</div>
+      </div>`;
+    });
+    document.getElementById('hasil-bars').innerHTML = barsHtml;
+
+    const now = new Date();
+    document.getElementById('hasil-tgl').textContent = `Diisi pada ${now.toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'})}`;
+
+    document.getElementById('state-onboarding').style.display = 'none';
+    document.getElementById('state-konek').style.display = 'block';
+  }
+
+  function ulangiKuesioner() {
+    document.getElementById('state-konek').style.display = 'none';
+    document.getElementById('state-onboarding').style.display = 'block';
+  }
+
+  // Tutup modal kalau klik overlay
+  document.getElementById('modal-kuesioner').addEventListener('click', function(e) {
+    if (e.target === this) tutupKuesioner();
+  });
+
+
+  // ============ PREMIUM UPGRADE ============
+  let isPremium = false;
+  let paketAktif = 'bulanan';
+
+  function bukaUpgrade() {
+    document.getElementById('modal-premium').classList.add('open');
+    switchPaket('bulanan');
+  }
+
+  function tutupPremium() {
+    document.getElementById('modal-premium').classList.remove('open');
+  }
+
+  function switchPaket(paket) {
+    paketAktif = paket;
+    const isBulanan = paket === 'bulanan';
+    document.getElementById('paket-bulanan').style.display = isBulanan ? 'block' : 'none';
+    document.getElementById('paket-tahunan').style.display = isBulanan ? 'none' : 'block';
+    document.getElementById('tab-bulanan').style.background = isBulanan ? '#08519C' : 'transparent';
+    document.getElementById('tab-bulanan').style.color = isBulanan ? '#fff' : '#6BAED6';
+    document.getElementById('tab-tahunan').style.background = isBulanan ? 'transparent' : '#08519C';
+    document.getElementById('tab-tahunan').style.color = isBulanan ? '#6BAED6' : '#fff';
+  }
+
+  function prosesUpgrade(paket) {
+    tutupPremium();
+    const harga = paket === 'bulanan' ? 'Rp49.000/bulan' : 'Rp349.000/tahun';
+    document.getElementById('sukses-desc').textContent = `Paket ${paket === 'bulanan' ? 'Bulanan' : 'Tahunan'} (${harga}) berhasil diaktifkan. Semua fitur premium kini bisa kamu gunakan!`;
+    document.getElementById('modal-sukses').classList.add('open');
+    isPremium = true;
+    window._premium = true;
+  }
+
+  function selesaiUpgrade() {
+    document.getElementById('modal-sukses').classList.remove('open');
+    renderPantau();
+    switchTab('pantau');
+  }
+
+  function renderPantauPremium() {
+    window._premium = true;
+    renderPantau();
+  }
+
+  document.getElementById('modal-premium').addEventListener('click', function(e) {
+    if (e.target === this) tutupPremium();
+  });
+  document.getElementById('modal-sukses').addEventListener('click', function(e) {
+    if (e.target === this) selesaiUpgrade();
+  });
+
+  function logout() {
+    if (confirm('Yakin mau keluar?')) {
+      window.location.href = 'TRIBEE_login.html';
+    }
+  }
+</script>
+</body>
+</html>
+<script>
+// Override logout tanpa popup
+if (typeof logout !== 'function') {
+  function logout() { window.location.href = 'login.html'; }
+}
+window.logout = function() { window.location.href = 'login.html'; };
+</script>
