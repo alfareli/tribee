@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Tribee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark: #0A3D6B; --blue-mid: #1565C0; --blue-main: #1E88E5;
+      --blue-light: #E3F2FD; --blue-pale: #F0F7FF;
+      --green-dark: #0A5C46; --green-main: #00897B; --green-light: #E0F2F1;
+      --red-dark: #8B1C1C; --red-light: #FEE2E2;
+      --text-1: #0F1F2E; --text-2: #4A6280; --text-3: #8BA3BC;
+      --bg: #F4F8FC; --white: #FFFFFF; --border: #D9E8F5;
+      --radius-sm: 10px; --radius-md: 16px; --radius-lg: 24px;
+      --shadow-sm: 0 1px 4px rgba(10,61,107,0.08);
+      --shadow-md: 0 4px 20px rgba(10,61,107,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    /* FULL SCREEN — responsive grid layout */
+    .page { min-height: 100vh; display: grid; grid-template-columns: 1fr; }
+
+    /* Di layar lebar: 2 kolom — kiri branding, kanan form */
+    @media (min-width: 900px) {
+      .page { grid-template-columns: 1fr 1fr; }
+      .branding { display: flex !important; }
+      .mobile-header { display: none !important; }
+      .form-wrap { padding: 3rem; display: flex; align-items: center; justify-content: center; }
+      .form-box { width: 100%; max-width: 420px; }
+    }
+
+    /* BRANDING — kiri (hanya desktop) */
+    .branding {
+      display: none;
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, var(--blue-main) 100%);
+      flex-direction: column; align-items: center; justify-content: center;
+      padding: 3rem; position: relative; overflow: hidden;
+    }
+    .branding::before { content:''; position:absolute; top:-80px; right:-80px; width:300px; height:300px; border-radius:50%; background:rgba(255,255,255,0.07); }
+    .branding::after  { content:''; position:absolute; bottom:-60px; left:-60px; width:240px; height:240px; border-radius:50%; background:rgba(255,255,255,0.05); }
+    .branding-logo { width: 120px; height: 120px; object-fit: contain; position: relative; z-index: 1; margin-bottom: 1.5rem; }
+    .branding-title { font-size: 42px; font-weight: 800; color: #fff; letter-spacing: -1px; position: relative; z-index: 1; }
+    .branding-sub { font-size: 15px; color: rgba(255,255,255,0.75); margin-top: 8px; position: relative; z-index: 1; font-weight: 500; letter-spacing: 0.05em; }
+    .branding-tags { display: flex; gap: 10px; margin-top: 2rem; position: relative; z-index: 1; flex-wrap: wrap; justify-content: center; }
+    .branding-tag { background: rgba(255,255,255,0.15); color: #fff; padding: 8px 18px; border-radius: 50px; font-size: 13px; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); }
+
+    /* MOBILE HEADER */
+    .mobile-header {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, var(--blue-main) 100%);
+      padding: max(2rem, calc(2rem + env(safe-area-inset-top))) 1.5rem 2rem;
+      text-align: center; position: relative; overflow: hidden;
+      border-radius: 0 0 32px 32px;
+    }
+    .mobile-header::before { content:''; position:absolute; top:-50px; right:-50px; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.07); }
+    .mobile-header::after  { content:''; position:absolute; bottom:-40px; left:-30px; width:140px; height:140px; border-radius:50%; background:rgba(255,255,255,0.05); }
+    .mobile-header img { width: 70px; height: 70px; object-fit: contain; position: relative; z-index: 1; }
+    .mobile-header h1 { font-size: clamp(26px,7vw,34px); font-weight: 800; color: #fff; margin-top: 10px; position: relative; z-index: 1; letter-spacing: -0.5px; }
+    .mobile-header p { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 6px; position: relative; z-index: 1; font-weight: 500; }
+
+    /* FORM AREA */
+    .form-wrap { padding: 1.5rem 1.25rem; background: var(--bg); }
+    .form-box { width: 100%; }
+
+    /* ROLE */
+    .role-row { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+    .role-btn { flex: 1; padding: 14px 10px; border-radius: var(--radius-md); font-size: 14px; font-weight: 700; cursor: pointer; border: 2px solid var(--border); font-family: inherit; transition: all 0.2s; background: var(--white); color: var(--text-3); display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: var(--shadow-sm); }
+    .role-btn .rb-icon { font-size: 24px; }
+    .role-btn.active-ortu { background: var(--blue-dark); color: #fff; border-color: var(--blue-dark); box-shadow: 0 4px 16px rgba(10,61,107,0.3); }
+    .role-btn.active-anak { background: var(--green-dark); color: #fff; border-color: var(--green-dark); box-shadow: 0 4px 16px rgba(10,92,70,0.3); }
+
+    /* CARD */
+    .form-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 1rem; }
+    .form-title { font-size: 20px; font-weight: 800; color: var(--text-1); margin-bottom: 4px; letter-spacing: -0.3px; }
+    .form-sub { font-size: 13px; color: var(--text-2); margin-bottom: 1.5rem; font-weight: 500; }
+
+    /* INPUT */
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 11px; font-weight: 700; color: var(--text-2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.07em; }
+    .field input { width: 100%; padding: 13px 16px; background: var(--blue-pale); border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; color: var(--text-1); outline: none; transition: all 0.15s; font-weight: 500; }
+    .field input::placeholder { color: var(--text-3); font-weight: 400; }
+    .field input:focus { background: var(--white); border-color: var(--blue-main); box-shadow: 0 0 0 3px rgba(30,136,229,0.12); }
+    .field-row { position: relative; }
+    .field-row input { padding-right: 48px; }
+    .eye-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 16px; color: var(--text-3); }
+    .kode-input { text-align: center !important; font-size: 28px !important; font-weight: 800 !important; letter-spacing: 10px !important; }
+
+    .forget { text-align: right; font-size: 13px; color: var(--blue-main); margin-bottom: 1.25rem; cursor: pointer; font-weight: 600; }
+
+    /* BUTTONS */
+    .btn-primary { width: 100%; padding: 15px; border: none; border-radius: 50px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; background: linear-gradient(135deg, var(--blue-dark), var(--blue-main)); color: #fff; box-shadow: 0 4px 16px rgba(10,61,107,0.25); letter-spacing: 0.02em; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(10,61,107,0.35); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary.green { background: linear-gradient(135deg, var(--green-dark), var(--green-main)); box-shadow: 0 4px 16px rgba(10,92,70,0.25); }
+    .btn-primary:disabled { background: var(--border); color: var(--text-3); cursor: not-allowed; box-shadow: none; transform: none; }
+    .btn-outline { width: 100%; padding: 13px; background: transparent; border: 1.5px solid var(--border); color: var(--blue-main); border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.15s; margin-top: 8px; }
+    .btn-outline:hover { background: var(--blue-pale); border-color: var(--blue-main); }
+
+    .divider { display: flex; align-items: center; gap: 10px; margin: 1.25rem 0; color: var(--text-3); font-size: 12px; font-weight: 600; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .signup-row { text-align: center; font-size: 13px; color: var(--text-2); font-weight: 500; }
+    .signup-row a { color: var(--blue-main); font-weight: 700; cursor: pointer; }
+
+    .alert { font-size: 13px; padding: 11px 14px; border-radius: var(--radius-sm); margin-bottom: 1rem; display: none; font-weight: 500; }
+    .alert.show { display: block; }
+    .alert-err { background: var(--red-light); color: var(--red-dark); border: 1px solid #FECACA; }
+    .alert-ok { background: var(--green-light); color: var(--green-dark); border: 1px solid #99F6E4; }
+
+    .kode-hint { font-size: 13px; color: var(--green-dark); text-align: center; margin-bottom: 1.25rem; line-height: 1.6; padding: 12px 16px; background: var(--green-light); border-radius: var(--radius-sm); font-weight: 600; border: 1px solid #99F6E4; }
+    .back-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--blue-main); cursor: pointer; margin-bottom: 1.25rem; background: none; border: none; font-family: inherit; padding: 0; font-weight: 700; }
+
+    /* Loading overlay */
+    .loading { display: none; position: fixed; inset: 0; background: rgba(10,61,107,0.6); z-index: 999; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+    .loading.show { display: flex; }
+    .loading-spinner { width: 44px; height: 44px; border: 4px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .loading-text { color: #fff; font-size: 14px; font-weight: 600; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div class="loading" id="loading">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loading-text">Memuat...</div>
+</div>
+
+<div class="page">
+  <!-- KIRI: Branding (hanya desktop) -->
+  <div class="branding">
+    <div class="branding-title">TRIBEE</div>
+    <div class="branding-sub">— IQ · EQ · SQ · Future Ready —</div>
+    <div class="branding-tags">
+      <span class="branding-tag">🧠 Kecerdasan Intelektual</span>
+      <span class="branding-tag">💛 Kecerdasan Emosional</span>
+      <span class="branding-tag">🌱 Kecerdasan Spiritual</span>
+    </div>
+  </div>
+
+  <!-- KANAN: Form -->
+  <div class="form-wrap">
+    <div class="form-box">
+
+      <!-- Mobile header -->
+      <div class="mobile-header">
+        <h1>TRIBEE</h1>
+        <p>— IQ · EQ · SQ · Future Ready —</p>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+
+        <!-- LOGIN -->
+        <div class="screen active" id="s-login">
+          <div class="role-row">
+            <button class="role-btn active-ortu" id="btn-ortu" onclick="setRole('ortu')">
+              <div class="rb-icon">👨‍👩‍👧</div>
+              <div>Orang Tua</div>
+            </button>
+            <button class="role-btn" id="btn-anak" onclick="setRole('anak')">
+              <div class="rb-icon">🧒</div>
+              <div>Anak</div>
+            </button>
+          </div>
+
+          <div id="form-ortu">
+            <div class="form-card">
+              <div class="form-title">Selamat datang!</div>
+              <div class="form-sub">Masuk ke akun orang tua kamu</div>
+              <div class="alert alert-ok" id="login-toast">✓ Akun berhasil dibuat! Silakan masuk.</div>
+              <div class="field">
+                <label>Username</label>
+                <input type="text" id="inp-user" placeholder="Masukkan username" />
+              </div>
+              <div class="field">
+                <label>Password</label>
+                <div class="field-row">
+                  <input type="password" id="inp-pass" placeholder="Masukkan password" />
+                  <button class="eye-btn" onclick="togglePass()">👁</button>
+                </div>
+              </div>
+              <div class="alert alert-err" id="login-err">Username atau password salah.</div>
+              <div class="forget">Lupa password?</div>
+              <button class="btn-primary" onclick="doLogin()">Masuk</button>
+            </div>
+            <div class="divider">atau</div>
+            <div class="signup-row">Belum punya akun? <a onclick="go('s-register')">Daftar sekarang</a></div>
+          </div>
+
+          <div id="form-anak" style="display:none;">
+            <div class="form-card">
+              <div class="form-title">Masuk sebagai Anak</div>
+              <div class="form-sub">Gunakan kode dari HP orang tua kamu</div>
+              <div class="kode-hint">🔑 Minta kode 6 huruf dari orang tua kamu</div>
+              <div class="field">
+                <label>Kode Koneksi</label>
+                <input class="kode-input" type="text" id="inp-kode" placeholder="——————" maxlength="6" />
+              </div>
+              <div class="alert alert-err" id="kode-err">Kode salah. Minta kode baru dari orang tua.</div>
+              <button class="btn-primary green" onclick="doKode()">Masuk</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- REGISTER -->
+        <div class="screen" id="s-register">
+          <button class="back-btn" onclick="go('s-login')">← Kembali</button>
+          <div class="form-card">
+            <div class="form-title">Buat Akun Baru</div>
+            <div class="form-sub">Data tersimpan ke database TRIBEE</div>
+            <div class="field"><label>Nama Lengkap</label><input type="text" id="reg-name" placeholder="cth: Budi Santoso" /></div>
+            <div class="field"><label>Username</label><input type="text" id="reg-user" placeholder="Buat username unik" /></div>
+            <div class="field"><label>Password</label><input type="password" id="reg-pass" placeholder="Buat password kuat" /></div>
+            <div class="alert alert-err" id="reg-err"></div>
+            <button class="btn-primary" id="reg-btn" onclick="doRegister()">Daftar Sekarang</button>
+          </div>
+          <div class="divider">atau</div>
+          <div class="signup-row">Sudah punya akun? <a onclick="go('s-login')">Masuk</a></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const db = [{ user: 'ortu1', pass: 'pass123', nama: 'Yanto Wilson' }];
+  let activeKode = 'ABC123';
+  let showPass = false;
+
+  function go(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+  function setRole(role) {
+    document.getElementById('btn-ortu').className = 'role-btn' + (role === 'ortu' ? ' active-ortu' : '');
+    document.getElementById('btn-anak').className = 'role-btn' + (role === 'anak' ? ' active-anak' : '');
+    document.getElementById('form-ortu').style.display = role === 'ortu' ? 'block' : 'none';
+    document.getElementById('form-anak').style.display = role === 'anak' ? 'block' : 'none';
+  }
+  function togglePass() {
+    showPass = !showPass;
+    document.getElementById('inp-pass').type = showPass ? 'text' : 'password';
+  }
+  function showLoading(text, url) {
+    document.getElementById('loading-text').textContent = text;
+    document.getElementById('loading').classList.add('show');
+    setTimeout(() => { window.location.href = url; }, 800);
+  }
+  function doLogin() {
+    const u = document.getElementById('inp-user').value.trim();
+    const p = document.getElementById('inp-pass').value.trim();
+    const err = document.getElementById('login-err');
+    err.classList.remove('show');
+    if (!u || !p) { err.textContent = 'Username dan password wajib diisi.'; err.classList.add('show'); return; }
+    if (u === 'admin' && p === '123') { showLoading('Masuk ke Panel Admin...', 'dashboard_admin.html'); return; }
+    const found = db.find(a => a.user === u && a.pass === p);
+    if (found) { showLoading('Masuk ke Dashboard Orang Tua...', 'dashboard_ortu.html'); }
+    else err.classList.add('show');
+  }
+  function doKode() {
+    const k = document.getElementById('inp-kode').value.trim().toUpperCase();
+    const err = document.getElementById('kode-err');
+    err.classList.remove('show');
+    if (!k) { err.textContent = 'Masukkan kode dulu.'; err.classList.add('show'); return; }
+    if (k === activeKode) { showLoading('Masuk ke Dashboard Anak...', 'dashboard_anak.html'); }
+    else err.classList.add('show');
+  }
+  function doRegister() {
+    const nama = document.getElementById('reg-name').value.trim();
+    const user = document.getElementById('reg-user').value.trim();
+    const pass = document.getElementById('reg-pass').value.trim();
+    const err = document.getElementById('reg-err');
+    const btn = document.getElementById('reg-btn');
+    err.classList.remove('show');
+    if (!nama || !user || !pass) { err.textContent = 'Semua kolom wajib diisi.'; err.classList.add('show'); return; }
+    if (db.find(a => a.user === user)) { err.textContent = 'Username sudah dipakai.'; err.classList.add('show'); return; }
+    btn.disabled = true; btn.textContent = 'Menyimpan...';
+    setTimeout(() => {
+      db.push({ user, pass, nama });
+      btn.disabled = false; btn.textContent = 'Daftar Sekarang';
+      ['reg-name','reg-user','reg-pass'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('login-toast').classList.add('show');
+      go('s-login');
+    }, 1000);
+  }
+  document.getElementById('inp-kode').addEventListener('input', function() { this.value = this.value.toUpperCase(); });
+
+  // Enter key support
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      const formOrtu = document.getElementById('form-ortu');
+      const formAnak = document.getElementById('form-anak');
+      if (formOrtu.style.display !== 'none') doLogin();
+      else doKode();
+    }
+  });
+</script>
+</body>
+</html>
